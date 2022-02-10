@@ -1,0 +1,5 @@
+BosonNLP_sentiment_score.txt  情感词对应评分
+degree.csv 程度副词表
+msyh.ttc 字体文件(用于绘制词云)
+not.csv 否定词表
+stopword.txt 停用词表
