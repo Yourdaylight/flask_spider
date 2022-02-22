@@ -1,5 +1,5 @@
 import jieba
-
+import os
 
 def stopwordslist(filepath):
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='gbk').readlines()]
@@ -20,7 +20,7 @@ def sentiment_dict(filepath):
 
 # 对句子去除停用词
 def movestopwords(sentence):
-    stopwords = stopwordslist('stopword.txt')  # 这里加载停用词的路径
+    stopwords = stopwordslist(os.path.join(os.path.abspath("."),'stopword.txt'))  # 这里加载停用词的路径
     outstr = ''
     for word in sentence:
         if word not in stopwords:
@@ -37,7 +37,8 @@ def get_top_positive_negative_frequency(data, top=10):
     :param top:
     :return:
     """
-    senti_dict = sentiment_dict('BosonNLP_sentiment_score.txt')
+    senti_dict = sentiment_dict(os.path.join(os.path.abspath("."),'BosonNLP_sentiment_score.txt'))
+    print(os.path.join(os.path.abspath("."),'BosonNLP_sentiment_score.txt'))
     content_seg = movestopwords(data["comments"])
     scores = {}
     frequency = {}
@@ -49,8 +50,8 @@ def get_top_positive_negative_frequency(data, top=10):
             frequency[word] = 1
     scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
     frequency = dict(sorted(frequency.items(), key=lambda x: x[1], reverse=True))
-    positive = [item[0] for item in scores[0:top]]
-    negative = [item[0] for item in scores[-top:]]
+    positive = dict(scores[0:top])
+    negative = dict(scores[-top:])
     return {
         "positive": positive,
         "negative": negative,
@@ -60,4 +61,7 @@ def get_top_positive_negative_frequency(data, top=10):
 
 if __name__ == '__main__':
     # 读取nlp情感词分数
-    print(get_top_positive_negative_frequency(15))
+    from utils import get_data
+
+    data = get_data("lzh","1512002")
+    print(get_top_positive_negative_frequency(data,15))

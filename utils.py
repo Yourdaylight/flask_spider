@@ -59,7 +59,7 @@ def parse_comments(username, product_id, page_limit=20):
     res = requests.get(comments_url, headers=headers).json()
     if res:
         pages = res.get("data", {}).get("pagination", {}).get("totalPage", 1)
-        # 我们这里最多只爬取10页，一次爬多容易触发反爬虫机制
+        # 我们这里最多只爬取page_limit页，一次爬多容易触发反爬虫机制
         pages = pages if pages <= page_limit else page_limit
         for page in range(1, pages + 1):
             comments_url = "https://you.163.com/xhr/comment/listByItemByTag.json?__timestamp={}&itemId={}&size=20&page={}&orderBy=0".format(

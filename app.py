@@ -57,10 +57,12 @@ def display():
     code, msg = 200, "success"
     url = request.json.get("url")
     username = request.json.get("username")
+    top = request.json.get("top", 10)
     product_id = url.split('id=')[-1] if url.split('id=') else url
     data = get_data(username, product_id)
-    data = data.update(get_top_positive_negative_frequency(data.pop("comments")))
-    return jsonify({"msg": msg, "code": code, "data":data})
+    data.update(get_top_positive_negative_frequency(data, top))
+    data.pop("comments")
+    return jsonify({"msg": msg, "code": code, "data": data})
 
 
 if __name__ == '__main__':
