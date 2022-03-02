@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      // this.$router.push({ path: "/home" });
+      // this.$router.push({ path: "/positive" });
       // console.log(formName);
       this.$refs[formName].validate((valid) => {
         let params = {
@@ -201,10 +201,9 @@ export default {
             .login(params)
             .then((res) => {
               if (res.data.code == 200) {
-                console.log(res);
                 this.data = res.data.data;
                 localStorage.setItem('username',this.formData.user)
-                this.$router.push({ path: "/home" });
+                this.$router.push({ path: "/positive" });
               } else {
                 this.$message.error("用户名或密码错误！");
               }
@@ -213,7 +212,6 @@ export default {
               this.$Message.error(err + "!");
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -236,7 +234,6 @@ export default {
             .regist(params)
             .then((res) => {
               if (res.data.code == 200 && res.data.msg == 'success') {
-                console.log(res);
                 this.data = res.data.data;
                 this.isRegist = false;
                 setTimeout(()=>{
@@ -250,7 +247,6 @@ export default {
               this.$Message.error(err + "!");
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

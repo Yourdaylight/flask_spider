@@ -36,17 +36,17 @@
       <div class="charts">
         <el-card class="box-card">
           <span>Top10积极词汇评分</span>
-          <div id="positiveChart" style="width: 700px; height: 400px"></div>
+          <div id="positiveChart" class="chart-size"></div>
         </el-card>
         <el-card class="box-card">
-          <div id="pieChart" style="width: 700px; height: 400px"></div>
+          <div id="pieChart" class="chart-size"></div>
         </el-card>
         <el-card class="box-card">
           <span>Top10消极词汇评分</span>
-          <div id="negativeChart" style="width: 700px; height: 400px"></div>
+          <div id="negativeChart" class="chart-size"></div>
         </el-card>
         <el-card class="box-card">
-          <div id="frequencyChart" style="width: 700px; height: 400px"></div>
+          <div id="frequencyChart" class="chart-size"></div>
         </el-card>
       </div>
     </div>
@@ -57,9 +57,8 @@ import * as info from "../../api/info";
 export default {
   data() {
     return {
-      activeIndex: 1,
       formData: {
-        url: "",
+        url: "http://you.163.com/item/detail?id=4028691",
       },
       username: "",
       chartsData: [],
@@ -93,6 +92,7 @@ export default {
       _this.frequencyChart.resize();
     });
     this.username = localStorage.getItem("username");
+    this.onSubmit();
   },
   methods: {
     onSubmit() {
@@ -104,7 +104,6 @@ export default {
         .display(params)
         .then((res) => {
           if (res.data.code == 200) {
-            console.log(res);
             this.chartsData = res.data.data;
             let positiveChartData = res.data.data.positive;
             let negativeChartData = res.data.data.negative;
@@ -129,7 +128,6 @@ export default {
               this.pieChartData.push({name:el,value:pieChartData[el]})
             });
             
-            console.log(keys,this.pieChartData)
             this.drawChart();
           } else {
             this.$message.error("拉取错误！");
@@ -249,6 +247,10 @@ export default {
 ::v-deep .el-menu.el-menu--horizontal {
   border: none;
 }
+::v-deep .el-card__body{
+  height: 100%;
+  padding:30px;
+}
 .homePage {
   margin: 0;
   padding: 0;
@@ -314,5 +316,9 @@ export default {
   height: 420px;
   float: left;
   margin: 10px;
+}
+.chart-size{
+  height: 100%;
+  width: 100%;
 }
 </style>
