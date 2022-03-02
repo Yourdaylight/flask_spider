@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
         proxy: {
           '/': {
-            target: 'http://101.35.53.113:5000',
+            target: 'http://127.0.0.1:5000',
             changeOrigin: true,
             // pathRewrite: {
             //   '^/server-eggs': ''

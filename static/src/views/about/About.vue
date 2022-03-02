@@ -8,7 +8,7 @@
         <el-header>
           <BreadCrumb @search="search" :url.sync="newUrl"/>
         </el-header>
-        <el-main class="main">{{url}}{{newUrl}}
+        <el-main class="main">
           <AppMain/>
         </el-main>
         <!-- <el-footer>Footer</el-footer> -->
@@ -82,6 +82,7 @@ export default {
           });
           let keys = Object.keys(pieChartData);
           keys.splice(0, 1);
+          this.pieChartData=[]
           keys.forEach((el) => {
             this.pieChartData.push({ name: el, value: pieChartData[el] });
           });
@@ -92,6 +93,7 @@ export default {
           localStorage.setItem("pieChartData", JSON.stringify(this.pieChartData));
 
           localStorage.setItem("url", this.url);
+          this.$message.success("数据获取成功！请点击相关页签查看更新数据")
         } else {
           this.$message.error("拉取错误！");
         }

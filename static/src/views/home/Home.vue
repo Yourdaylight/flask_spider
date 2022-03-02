@@ -104,6 +104,7 @@ export default {
         .display(params)
         .then((res) => {
           if (res.data.code == 200) {
+            localStorage.setItem("url", this.formData.url)
             this.chartsData = res.data.data;
             let positiveChartData = res.data.data.positive;
             let negativeChartData = res.data.data.negative;
