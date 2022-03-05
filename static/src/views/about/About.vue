@@ -55,6 +55,10 @@ export default {
       };
       info.display(params).then((res) => {
         if (res.data.code == 200) {
+          localStorage.setItem("positiveChartData", JSON.stringify( { xData: [], yData: [] }));
+          localStorage.setItem("negativeChartData", JSON.stringify( { xData: [], yData: [] }));
+          localStorage.setItem("frequencyChartData", JSON.stringify([]));
+          localStorage.setItem("pieChartData", JSON.stringify([]));
           this.chartsData = res.data.data;
           let positiveChartData = res.data.data.positive;
           let negativeChartData = res.data.data.negative;
@@ -91,7 +95,6 @@ export default {
           localStorage.setItem("negativeChartData", JSON.stringify(this.negativeChartData));
           localStorage.setItem("frequencyChartData", JSON.stringify(this.frequencyChartData));
           localStorage.setItem("pieChartData", JSON.stringify(this.pieChartData));
-
           localStorage.setItem("url", this.url);
           this.$message.success("数据获取成功！请点击相关页签查看更新数据")
         } else {

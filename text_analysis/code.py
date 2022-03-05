@@ -2,6 +2,7 @@ import jieba
 import os
 
 def stopwordslist(filepath):
+    """读取停用词表"""
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='gbk').readlines()]
     return stopwords
 
@@ -37,7 +38,7 @@ def get_top_positive_negative_frequency(data, top=10):
     :param top:
     :return:
     """
-    senti_dict = sentiment_dict(os.path.join(os.path.abspath("."),'BosonNLP_sentiment_score.txt'))
+    senti_dict = sentiment_dict(os.path.join(os.path.abspath("."),'text_analysis\\BosonNLP_sentiment_score.txt'))
     print(os.path.join(os.path.abspath("."),'BosonNLP_sentiment_score.txt'))
     content_seg = movestopwords(data["comments"])
     scores = {}
@@ -62,6 +63,5 @@ def get_top_positive_negative_frequency(data, top=10):
 if __name__ == '__main__':
     # 读取nlp情感词分数
     from utils import get_data
-
     data = get_data("lzh","1512002")
     print(get_top_positive_negative_frequency(data,15))

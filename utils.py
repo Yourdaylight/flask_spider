@@ -13,9 +13,9 @@ headers = {
 class dbutil:
 
     def __init__(self):
-        self.db = pymysql.connect(host='101.35.53.113',
+        self.db = pymysql.connect(host='127.0.0.1',
                                   user='root',
-                                  password='LZHlzh.rootOOT123',
+                                  password='123456',
                                   database='flask_spider')
 
     def insert(self, sql):
@@ -69,8 +69,7 @@ def parse_comments(username, product_id, page_limit=20):
                 try:
                     comment = item.get("content", "")
                     update_time = item.get("createTime", -1)
-                    sql = "insert into tb_comments(username,url,comment,update_time) values ('{}','{}','{}',{});".format(username, comments_url,
-                                                                                                                         comment, update_time)
+                    sql = "insert into tb_comments(username,url,product_id,comment,update_time) values ('{}','{}','{}','{}',{});".format(username, comments_url,product_id,comment, update_time)
                     dbutil().insert(sql)
                 except Exception as e:
                     traceback.print_exc(e)
@@ -88,7 +87,7 @@ def parse_tags(username, product_id):
         try:
             tag = item.get("name", "")
             count = item.get("strCount", 0)
-            sql = "insert into tb_tags(username,url,tag,count,update_time) values ('{}','{}','{}',{},{});".format(username, tags_url, tag, count,
+            sql = "insert into tb_tags(username,url,product_id,tag,count,update_time) values ('{}','{}','{}','{}',{},{});".format(username, tags_url, product_id,tag, count,
                                                                                                                   int(time.time()))
             dbutil().insert(sql)
         except Exception as e:
@@ -103,7 +102,7 @@ def get_data(username, product_id):
     :param product_id:
     :return:
     """
-    sql = "select * from {} where url like '%itemId={}%' and username='{}'"
+    sql = "select * from {} where product_id='{}' and username='{}'"
     res = {
         "tags": {},
         "comments": None

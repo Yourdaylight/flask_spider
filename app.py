@@ -6,7 +6,6 @@ from utils import get_data
 
 app = Flask(__name__)
 # 连接数据库
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:LZHlzh.rootOOT123@101.35.53.113:3306/flask_spider'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost:3306/flask_spider'
 # 实例化orm框架的操作对象，后续数据库操作，都要基于操作对象来完成
 db = SQLAlchemy(app)
@@ -27,6 +26,7 @@ def hello_world():
 
 @app.route("/login", methods=["post"])
 def login():
+    """登录"""
     code, msg = 200, "success"
     username = request.json.get("username")
     password = request.json.get("password")
@@ -39,6 +39,7 @@ def login():
 
 @app.route("/regist", methods=["post"])
 def regist():
+    """注册"""
     code, msg = 200, "success"
     username = request.json.get("username")
     password = request.json.get("password")
@@ -54,6 +55,10 @@ def regist():
 
 @app.route("/display", methods=["post"])
 def display():
+    """
+    获取绘图数据
+    :return:
+    """
     code, msg = 200, "success"
     url = request.json.get("url")
     username = request.json.get("username")

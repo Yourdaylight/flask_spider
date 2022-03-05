@@ -84,6 +84,9 @@ export default {
           );
 
           this.drawChart();
+          if (negativeChartData){
+            this.$message.warning("该链接评论数据为空")
+          }
           this.negativeChart.resize();
         }
       });
