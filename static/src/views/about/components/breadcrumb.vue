@@ -27,7 +27,7 @@
       <div>
         <el-dropdown @command="handleCommand" placement="bottom">
           <span class="el-dropdown-link">
-            {{ username }}admin<i class="el-icon-arrow-down el-icon--right" style="position:absolute;margin-right:20px"></i>
+            {{ username }}<i class="el-icon-arrow-down el-icon--right" style="position:absolute;margin-right:20px"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="a">退出登录</el-dropdown-item>
@@ -47,9 +47,12 @@ export default {
       formData: {
         url: "http://you.163.com/item/detail?id=4028691",
       },
+      username:""
     };
   },
-  mounted() {},
+  mounted() {
+    this.username = localStorage.getItem("username")
+  },
   methods: {
     onSubmit() {
       this.$emit("search", this.formData.url);

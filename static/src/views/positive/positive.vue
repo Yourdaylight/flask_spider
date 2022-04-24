@@ -97,6 +97,9 @@ export default {
         yAxis: {
           type: "value",
         },
+        tooltip: {
+          trigger: 'item'
+        },
         series: [
           {
             data: this.positiveChartData.yData,
