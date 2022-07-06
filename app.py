@@ -2,11 +2,12 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from text_analysis.code import get_top_positive_negative_frequency
-from utils import get_data
+from utils import get_data,get_db_config
 
 app = Flask(__name__)
 # 连接数据库
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost:3306/flask_spider'
+config = get_db_config()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{}:{}@{}:3306/{}'.format(config["user"],config["password"],config["host"],config["database"])
 # 实例化orm框架的操作对象，后续数据库操作，都要基于操作对象来完成
 db = SQLAlchemy(app)
 

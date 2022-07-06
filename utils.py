@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import json
 import time
 import traceback
 
@@ -10,14 +12,23 @@ headers = {
 }
 
 
+def get_db_config():
+    if os.path.exists("db_config.json"):
+        with open("db_config.json", "r") as f:
+            config = json.loads(f.read())
+            return config
+    else:
+        raise Exception("请检查数据库配置文件db_config.json是否存在")
+
+
 class dbutil:
 
     def __init__(self):
-        self.db = pymysql.connect(host='127.0.0.1',
-                                  user='root',
-                                  password='123456',
-                                  database='flask_spider')
-
+        config = get_db_config()
+        self.db = pymysql.connect(host=config["host"],
+                                  user=config["user"],
+                                  password=config["password"],
+                                  database=config["database"])
     def insert(self, sql):
         # 打开数据库连接
 
@@ -69,7 +80,11 @@ def parse_comments(username, product_id, page_limit=20):
                 try:
                     comment = item.get("content", "")
                     update_time = item.get("createTime", -1)
-                    sql = "insert into tb_comments(username,url,product_id,comment,update_time) values ('{}','{}','{}','{}',{});".format(username, comments_url,product_id,comment, update_time)
+                    sql = "insert into tb_comments(username,url,product_id,comment,update_time) values ('{}','{}','{}','{}',{});".format(username,
+                                                                                                                                         comments_url,
+                                                                                                                                         product_id,
+                                                                                                                                         comment,
+                                                                                                                                         update_time)
                     dbutil().insert(sql)
                 except Exception as e:
                     traceback.print_exc(e)
@@ -87,8 +102,10 @@ def parse_tags(username, product_id):
         try:
             tag = item.get("name", "")
             count = item.get("strCount", 0)
-            sql = "insert into tb_tags(username,url,product_id,tag,count,update_time) values ('{}','{}','{}','{}',{},{});".format(username, tags_url, product_id,tag, count,
-                                                                                                                  int(time.time()))
+            sql = "insert into tb_tags(username,url,product_id,tag,count,update_time) values ('{}','{}','{}','{}',{},{});".format(username, tags_url,
+                                                                                                                                  product_id, tag,
+                                                                                                                                  count,
+                                                                                                                                  int(time.time()))
             dbutil().insert(sql)
         except Exception as e:
             print(sql)
